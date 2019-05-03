@@ -58,7 +58,7 @@ enum
     DRIVER_CAN_ETAS_BOA,
     DRIVER_CAN_ETAS_ES581,
     DRIVER_CAN_ETAS_ES5814,
-	DRIVER_CAN_ETAS_ES5821,
+    DRIVER_CAN_ETAS_ES5821,
     DRIVER_CAN_VECTOR_XL,
     DRIVER_CAN_KVASER_CAN,
     DRIVER_CAN_MHS,
@@ -67,6 +67,7 @@ enum
     DRIVER_CAN_VSCOM,
     DRIVER_CAN_IVIEW,
     DRIVER_CAN_ISOLAR,
+    DRIVER_CAN_CC_SIMCAN,
     DIL_TOTAL,          // Its value must be <= MAX_DILS
     DAL_NONE = ~0x0
 };
@@ -76,10 +77,11 @@ static ENTRY_DIL sg_ListDIL[] =
     /* simulation should be the first entry... */
     {DRIVER_CAN_STUB,       "&Simulation"       },
     /* ...all other drivers should be in alphabetical order */
+    {DRIVER_CAN_CC_SIMCAN,  "CC SimC&AN"        },
     {DRIVER_CAN_ETAS_BOA,   "ETAS &BOA"         },
     {DRIVER_CAN_ETAS_ES581, "ETAS &ES581.3"     },
     {DRIVER_CAN_ETAS_ES5814, "ETAS ES581.&4"    },
-	{DRIVER_CAN_ETAS_ES5821, "ETAS ES582.&1"	},
+    {DRIVER_CAN_ETAS_ES5821, "ETAS ES582.&1"	},
     {DRIVER_CAN_ISOLAR,     "ETAS ISO&LAR-EVE"  },
     {DRIVER_CAN_IVIEW,      "&i-VIEW"           },
     {DRIVER_CAN_ICS_NEOVI,  "IntrepidCS ne&oVI" },
@@ -354,6 +356,9 @@ HRESULT CDIL_CAN::DILC_SelectDriver(DWORD dwDriverID, HWND hWndOwner)
             case DRIVER_CAN_ISOLAR:
                 m_hDll = LoadLibrary("CAN_ISOLAR_EVE_VCAN.dll");
                 break;
+			case DRIVER_CAN_CC_SIMCAN:
+                m_hDll = LoadLibrary("CAN_CC_SIMCAN.dll");
+				break;
             case DAL_NONE:
                 DILC_PerformClosureOperations();
                 vSelectInterface_Dummy();
